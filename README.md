@@ -6,8 +6,9 @@
 ### Author: Becca Lee
 
 ### Links and Resources
+![Build Status](https://www.travis-ci.com/beccalee123/07-tcp-server.svg?branch=master)
 * [repo](https://github.com/beccalee123/07-tcp-server)
-* [travis](http://xyz.com)
+* [travis](https://www.travis-ci.com/beccalee123/07-tcp-server)
 * [back-end](http://xyz.com)
 * [front-end](http://xyz.com)
 
