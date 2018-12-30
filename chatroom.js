@@ -23,36 +23,8 @@ server.on('connection', (socket) => {
     nickname: `User-${id}`,
     socket: socket,
   };
-  socket.on('data', (buffer) => dispatchAction(id, buffer));
+  socket.on('data', (buffer) => events.emit('emitting-socket', buffer, id, socketPool));
 });
-
-events.on('accept-buffer', acceptBuffer);
-
-let entry;
-
-function acceptBuffer({command,payload,target,message}){
-  entry = {command,payload,target,message};
-  return entry;
-}
-
-let dispatchAction = (userId, buffer) => {
-  app.parse(buffer);
-  console.log('entry', entry);
-  // if ( entry && typeof commands[entry.command] === 'function' ) {
-  //   commands[entry.command](entry, userId);
-  // }
-};
-
-commands['@all'] =  (data, userId) => {
-  for( let connection in socketPool ) {
-    let user = socketPool[connection];
-    user.socket.write(`<${socketPool[userId].nickname}>: ${data.payload}\n`);
-  }
-};
-
-commands['@nick'] =  (data, userId) => {
-  socketPool[userId].nickname = data.target;
-};
 
 server.listen(port, () => {
   console.log(`Chat Server up on ${port}`);
