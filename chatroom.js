@@ -11,6 +11,11 @@ const server = net.createServer();
 const socketPool = {};
 const commands = {};
 
+// Module files
+const app = require('./app.js');
+const logger = require('./modules/logger.js');
+const events = require('./modules/events.js');
+
 server.on('connection', (socket) => {
   let id = uuid();
   socketPool[id] = {
@@ -21,19 +26,21 @@ server.on('connection', (socket) => {
   socket.on('data', (buffer) => dispatchAction(id, buffer));
 });
 
-let parse = (buffer) => {
-  let text = buffer.toString().trim();
-  if ( !text.startsWith('@') ) { return null; }
-  let [command,payload] = text.split(/\s+(.*)/);
-  let [target,message] = payload.split(/\s+(.*)/);
-  return {command,payload,target,message};
-};
+events.on('accept-buffer', acceptBuffer);
+
+let entry;
+
+function acceptBuffer({command,payload,target,message}){
+  entry = {command,payload,target,message};
+  return entry;
+}
 
 let dispatchAction = (userId, buffer) => {
-  let entry = parse(buffer);
-  if ( entry && typeof commands[entry.command] === 'function' ) {
-    commands[entry.command](entry, userId);
-  }
+  app.parse(buffer);
+  console.log('entry', entry);
+  // if ( entry && typeof commands[entry.command] === 'function' ) {
+  //   commands[entry.command](entry, userId);
+  // }
 };
 
 commands['@all'] =  (data, userId) => {

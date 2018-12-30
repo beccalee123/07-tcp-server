@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "uuid": "^3.2.1"
+    "nc": "^1.0.2",
+    "node": "^11.5.0",
+    "uuid": "^3.3.2"
   },
   "repository": {
     "type": "git",
