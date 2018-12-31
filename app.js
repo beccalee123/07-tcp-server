@@ -12,7 +12,6 @@ function dispatchAction(buffer, userId, socketPool) {
 }
 
 function parse(buffer, userId, socketPool) {
-  // console.log('in app', {buffer});
   events.emit('parse-buffer', buffer, userId, socketPool);
 }
 

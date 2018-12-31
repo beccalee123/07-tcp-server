@@ -16,6 +16,7 @@ const app = require('./app.js');
 const logger = require('./modules/logger.js');
 const events = require('./modules/events.js');
 
+
 server.on('connection', (socket) => {
   let id = uuid();
   socketPool[id] = {
@@ -23,9 +24,16 @@ server.on('connection', (socket) => {
     nickname: `User-${id}`,
     socket: socket,
   };
+  let socketArr = [];
+  socketArr.push(socketPool[id].nickname);
   socket.on('data', (buffer) => events.emit('emitting-socket', buffer, id, socketPool));
+  // console.log(socketPool);
 });
+
+// console.log(socketArr);
 
 server.listen(port, () => {
   console.log(`Chat Server up on ${port}`);
 });
+
+// module.exports = {socketArr};
