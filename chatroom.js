@@ -24,8 +24,8 @@ server.on('connection', (socket) => {
     nickname: `User-${id}`,
     socket: socket,
   };
-  let socketArr = [];
-  socketArr.push(socketPool[id].nickname);
+  // let socketArr = [];
+  // socketArr.push(socketPool[id].nickname);
   socket.on('data', (buffer) => events.emit('emitting-socket', buffer, id, socketPool));
   // console.log(socketPool);
 });

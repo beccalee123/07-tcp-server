@@ -1,6 +1,7 @@
 'use strict';
 
 const logger = require('./logger.js');
+const events = require('./events.js');
 
 const commands = {};
 
@@ -25,7 +26,14 @@ commands['@list'] = (data, userId, socketPool) => {
 };
 
 commands['@dm'] = (data, userId, socketPool) => {
-  // socketPool[userId] = 
+  for(let connection in socketPool){
+    let user = socketPool[connection];
+    if(user.nickname === data.target){
+      user.socket.write(`<<<${socketPool[userId]}.nickname>>> ${data.message}\n`);
+    }
+  }
 };
+
+events.on('@dm', commands['@dm']);
 
 module.exports = {commands};
